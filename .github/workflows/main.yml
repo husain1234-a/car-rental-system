@@ -30,3 +30,6 @@ jobs:
           aws codeguru-security create-scan \
             --repository-name car-rental-system \
             --branch-name ${{ github.head_ref }}
+            --resource-id car-rental-system-${{ github.head_ref }} \
+            --scan-name car-rental-system-scan-${{ github.run_id }} \
+            --debug
