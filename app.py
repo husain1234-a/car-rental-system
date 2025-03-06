@@ -11,7 +11,7 @@ from routes.main import main
 from routes.admin import admin
 from routes.user import user
 
-
+#added comments
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
 
