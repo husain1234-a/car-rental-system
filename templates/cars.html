@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Cars</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Available Cars for Rent</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>Car Number</th>
+                    <th>Car Type</th>
+                    <th>Daily Rent</th>
+                    <th>Availability</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td>{{ car.car_name }}</td>
+                    <td>{{ car.car_number }}</td>
+                    <td>{{ car.car_type }}</td>
+                    <td>₹{{ car.daily_rent }}</td>
+                    <td>{{ 'Available' if car.availability else 'Not Available' }}</td>
+                    <td>
+                        {% if car.availability %}
+                            <a href="{{ url_for('cars.rent_car', car_id=car._id) }}" class="btn btn-primary">Rent Car</a>
+                        {% else %}
+                            <span>Not Available</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="text-center"><a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a></p>
+    </div>
+</body>
+</html>

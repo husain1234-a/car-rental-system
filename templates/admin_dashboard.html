@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="text-center">Admin Dashboard</h1>
+        <div class="btn-group">
+            <a href="{{ url_for('admin.add_car') }}" class="btn btn-primary mr-2">Add New Car</a>
+            <a href="{{ url_for('admin.show_rented_cars') }}" class="btn btn-primary mr-2">Show Rented Cars</a>
+            <a href="{{ url_for('cars.list_cars') }}" class="btn btn-primary mr-2">Show All Cars</a>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <p class="text-center"><a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a></p>
+    </div>
+</body>
+</html>

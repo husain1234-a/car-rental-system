@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">User Dashboard</h1>
+        <h2 class="text-center">Available Cars</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>Car Number</th>
+                    <th>Car Type</th>
+                    <th>Daily Rent</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td>{{ car.car_name }}</td>
+                    <td>{{ car.car_number }}</td>
+                    <td>{{ car.car_type }}</td>
+                    <td>{{ car.daily_rent }}</td>
+                    <td>
+                        {% if car.availability %}
+                            <a href="{{ url_for('cars.rent_car', car_id=car._id) }}" class="btn btn-primary">Rent</a>
+                        {% else %}
+                            <span class="text-danger">Not Available</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a href="{{ url_for('user.my_rentals') }}" class="btn btn-secondary">Show My Rentals</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Car</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Add New Car</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="car_name" class="col-form-label">Car Name:</label>
+                <input type="text" id="car_name" name="car_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="car_number" class="col-form-label">Car Number:</label>
+                <input type="text" id="car_number" name="car_number" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="car_type" class="col-form-label">Car Type:</label>
+                <input type="text" id="car_type" name="car_type" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="car_price" class="col-form-label">Car Price:</label>
+                <input type="number" id="car_price" name="car_price" class="form-control" step="0.01" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Car</button>
+        </form>
+        <p class="text-center"><a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a></p>
+    </div>
+</body>
+</html>

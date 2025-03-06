@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rentals</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">My Rentals</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>Car Number</th>
+                    <th>Car Type</th>
+                    <th>Daily Rent</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rental in rentals %}
+                <tr>
+                    <td>{{ rental.car.car_name }}</td>
+                    <td>{{ rental.car.car_number }}</td>
+                    <td>{{ rental.car.car_type }}</td>
+                    <td>₹{{ rental.car.daily_rent }}</td>
+                    <td>{{ rental.start_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ rental.end_date.strftime('%Y-%m-%d') }}</td>
+                    <td>₹{{ rental.total_amount }}</td>
+                    <td>{{ rental.status }}</td>
+                    <td>
+                        {% if rental.status == 'active' %}
+                            <form method="POST" action="{{ url_for('rentals.return_car', rental_id=rental._id) }}">
+                                <button type="submit" class="btn btn-primary">Return Car</button>
+                            </form>
+                        {% else %}
+                            <span class="text-success">Returned</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="text-center"><a href="{{ url_for('user.user_dashboard') }}">Back to Dashboard</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Car</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-left">
+            <h1 class="text-center">Rent Car</h1>
+            <h6>Car Name : {{car.car_name}}</h6>
+            <h6>Car Number : {{car.car_number}}</h6>
+            <h6>Car Price : {{car.daily_rent}}</h6>
+            <h6 id="total_charge">Total Rent : 0.00 </h6>
+    </div>
+    <hr>
+    <div class="container mr-15">
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Rent Car</button>
+        </form>
+        <p class="text-center"><a href="{{ url_for('user.user_dashboard') }}">Back to Dashboard</a></p>
+    </div>
+</body>
+<script>
+    document.getElementById("start_date").min = new Date().toISOString().split("T")[0];
+    document.getElementById("end_date").min = new Date().toISOString().split("T")[0];
+
+    var startDate = document.getElementById('start_date');
+    var endDate = document.getElementById('end_date');
+    var carPrice = {{ car.daily_rent }}; // assuming daily_rent is the daily rent price
+
+    startDate.addEventListener('input', function() {
+        calculateTotalCharge();
+    });
+
+    endDate.addEventListener('input', function() {
+        calculateTotalCharge();
+    });
+
+    function calculateTotalCharge() {
+        var startDateValue = new Date(startDate.value);
+        var endDateValue = new Date(endDate.value);
+        var differenceInDays = ((endDateValue - startDateValue) / (1000 * 3600 * 24))>0?(endDateValue - startDateValue) / (1000 * 3600 * 24):1;
+        var totalCharge = (differenceInDays <= 0) ? carPrice : differenceInDays * carPrice;
+        document.getElementById('total_charge').textContent = 'Total Rent :' + totalCharge.toFixed(2);
+    }
+</script>
+</html>
