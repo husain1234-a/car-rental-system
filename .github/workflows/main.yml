@@ -1,35 +1,47 @@
-name: CodeGuru Security Scan
-
+name: CodeGuru Security Example
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - 'main'
+
+permissions:
+  id-token: write
+  # for writing security events.
+  security-events: write
+  # only required for workflows in private repositories
+  actions: read
+  contents: read
 
 jobs:
-  codeguru-security-scan:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
-      - name: Checkout code
+      - name: Checkout Respository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Update AWS CLI
-        run: |
-          pip install --upgrade awscli
-
-      - name: Configure AWS Credentials
+      - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::094853031708:role/GitHubActionsOIDCRole
+          role-to-assume: arn:aws:iam::094853031708:role/CodeGuruSecurityGitHubAccessRole
           aws-region: us-east-2
+          role-session-name: GitHubActionScript
 
-      - name: Run CodeGuru Security Scan
+      - name: CodeGuru Security
+        uses: aws-actions/codeguru-security@v1
+        with:
+          source_path: .
+          aws_region: us-east-2
+          fail_on_severity: Critical
+      - name: Print findings
         run: |
-          aws codeguru-security create-scan \
-            --repository-name car-rental-system \
-            --branch-name ${{ github.head_ref }}
-            --resource-id car-rental-system-${{ github.head_ref }} \
-            --scan-name car-rental-system-scan-${{ github.run_id }} \
-            --debug
+          ls -l
+          cat codeguru-security-results.sarif.json
+
+      # If you want content in security scanning, you’ll need to enable codescanning by going into github.
+      # https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning-for-a-repository
+      - name: Upload result
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: codeguru-security-results.sarif.json
