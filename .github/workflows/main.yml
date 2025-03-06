@@ -15,6 +15,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Update AWS CLI
+        run: |
+          pip install --upgrade awscli
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -23,6 +27,6 @@ jobs:
 
       - name: Run CodeGuru Security Scan
         run: |
-          aws codeguru-security scan-repository \
+          aws codeguru-security create-scan \
             --repository-name car-rental-system \
             --branch-name ${{ github.head_ref }}
