@@ -1,0 +1,32 @@
+name: CodeGuru Security Scan
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  codeguru-security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update AWS CLI
+        run: |
+          pip install --upgrade awscli
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::094853031708:role/GitHubActionsOIDCRole
+          aws-region: us-east-2
+
+      - name: Run CodeGuru Security Scan
+        run: |
+          aws codeguru-security create-scan \
+            --repository-name car-rental-system \
+            --branch-name ${{ github.head_ref }}
